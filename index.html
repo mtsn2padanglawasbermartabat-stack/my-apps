@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>App Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f0f13;
+      --bg2: #18181f;
+      --bg3: #222230;
+      --border: rgba(255,255,255,0.07);
+      --border2: rgba(255,255,255,0.13);
+      --text: #f0f0f5;
+      --text2: #9898b0;
+      --text3: #55556a;
+      --accent: #a78bfa;
+      --accent-bg: rgba(167,139,250,0.12);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(15,15,19,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 0.5px solid var(--border);
+      padding: 0 2rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .nav-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, #7c5cfc, #a78bfa);
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .nav-icon i { font-size: 18px; color: #fff; }
+
+    .nav-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .nav-right { display: flex; align-items: center; gap: 8px; }
+
+    .nav-btn {
+      display: flex; align-items: center; gap: 6px;
+      padding: 7px 14px;
+      border-radius: 8px;
+      border: 0.5px solid var(--border2);
+      background: transparent;
+      color: var(--text2);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+    .nav-btn:hover { background: var(--bg3); color: var(--text); }
+    .nav-btn.primary {
+      background: var(--accent-bg);
+      border-color: rgba(167,139,250,0.3);
+      color: var(--accent);
+    }
+    .nav-btn.primary:hover { background: rgba(167,139,250,0.2); }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 4rem 2rem 2.5rem;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 100px;
+      border: 0.5px solid rgba(167,139,250,0.3);
+      background: var(--accent-bg);
+      color: var(--accent);
+      font-size: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #f0f0f5 30%, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 16px;
+      color: var(--text2);
+      line-height: 1.7;
+      max-width: 480px;
+      margin: 0 auto 2rem;
+    }
+
+    /* ── STATS ── */
+    .stats-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+
+    .stat-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 100px;
+      background: var(--bg2);
+      border: 0.5px solid var(--border);
+      font-size: 13px;
+      color: var(--text2);
+    }
+
+    .stat-pill strong { color: var(--text); font-weight: 500; }
+    .stat-pill i { font-size: 15px; color: var(--accent); }
+
+    /* ── MAIN AREA ── */
+    .main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 1.5rem 4rem;
+    }
+
+    /* Search + Filter */
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 1.75rem;
+    }
+
+    .search-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--bg2);
+      border: 0.5px solid var(--border2);
+      border-radius: 10px;
+      padding: 10px 16px;
+      transition: border-color 0.15s;
+    }
+
+    .search-wrap:focus-within { border-color: rgba(167,139,250,0.4); }
+    .search-wrap i { font-size: 18px; color: var(--text3); flex-shrink: 0; }
+
+    .search-wrap input {
+      border: none;
+      background: transparent;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      outline: none;
+      flex: 1;
+    }
+
+    .search-wrap input::placeholder { color: var(--text3); }
+
+    .filter-row { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .chip {
+      padding: 5px 14px;
+      border-radius: 100px;
+      border: 0.5px solid var(--border2);
+      background: transparent;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      color: var(--text2);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .chip:hover { background: var(--bg3); color: var(--text); }
+
+    .chip.active {
+      background: var(--accent-bg);
+      border-color: rgba(167,139,250,0.35);
+      color: var(--accent);
+    }
+
+    /* Section label */
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text3);
+      margin-bottom: 1rem;
+    }
+
+    /* ── APP GRID ── */
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 14px;
+    }
+
+    .app-card {
+      background: var(--bg2);
+      border: 0.5px solid var(--border);
+      border-radius: 14px;
+      padding: 1.2rem 1.1rem;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s, background 0.2s;
+    }
+
+    .app-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.2s;
+      border-radius: 14px;
+    }
+
+    .app-card:hover {
+      border-color: var(--border2);
+      background: var(--bg3);
+      transform: translateY(-3px);
+    }
+
+    .app-card-icon {
+      width: 44px; height: 44px;
+      border-radius: 11px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .ic-purple { background: rgba(167,139,250,0.15); color: #a78bfa; }
+    .ic-teal   { background: rgba(45,212,191,0.12);  color: #2dd4bf; }
+    .ic-coral  { background: rgba(251,113,133,0.12); color: #fb7185; }
+    .ic-blue   { background: rgba(96,165,250,0.12);  color: #60a5fa; }
+    .ic-amber  { background: rgba(251,191,36,0.12);  color: #fbbf24; }
+    .ic-green  { background: rgba(74,222,128,0.12);  color: #4ade80; }
+    .ic-pink   { background: rgba(232,121,249,0.12); color: #e879f9; }
+    .ic-orange { background: rgba(251,146,60,0.12);  color: #fb923c; }
+
+    .app-card-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .app-card-desc {
+      font-size: 12px;
+      color: var(--text2);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .app-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+    }
+
+    .app-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 9px;
+      border-radius: 100px;
+      font-size: 11px;
+      background: rgba(255,255,255,0.05);
+      color: var(--text3);
+    }
+
+    .app-arrow {
+      font-size: 16px;
+      color: var(--text3);
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+
+    .app-card:hover .app-arrow { opacity: 1; }
+
+    /* Add card */
+    .add-card {
+      border: 0.5px dashed var(--border2);
+      border-radius: 14px;
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      min-height: 150px;
+      background: transparent;
+      color: var(--text3);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      text-align: center;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+
+    .add-card i { font-size: 26px; }
+    .add-card:hover { background: var(--bg2); border-color: var(--accent); color: var(--accent); }
+
+    /* Empty state */
+    #no-result {
+      display: none;
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--text3);
+    }
+
+    #no-result i { font-size: 36px; display: block; margin-bottom: 12px; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 0.5px solid var(--border);
+      padding: 1.5rem 2rem;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text3);
+    }
+
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 520px) {
+      nav { padding: 0 1rem; }
+      .hero { padding: 2.5rem 1rem 1.5rem; }
+      .main { padding: 0 1rem 3rem; }
+      .apps-grid { grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a class="nav-brand" href="index.html">
+      <div class="nav-icon"><i class="ti ti-layout-grid"></i></div>
+      <span class="nav-title">App Portal</span>
+    </a>
+    <div class="nav-right">
+      <a class="nav-btn" href="https://github.com" target="_blank">
+        <i class="ti ti-brand-github"></i> GitHub
+      </a>
+      <a class="nav-btn primary" href="#apps">
+        <i class="ti ti-apps"></i> Lihat App
+      </a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">
+      <i class="ti ti-rocket"></i>
+      Hosting gratis via Netlify
+    </div>
+    <h1>Semua Aplikasi<br>Kamu di Satu Tempat</h1>
+    <p>Portal pribadi untuk mengakses semua tools, game, dan aplikasi HTML yang kamu buat — cepat, gratis, dan selalu online.</p>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat-pill"><i class="ti ti-apps"></i> <strong id="count-display">6</strong> Aplikasi</div>
+    <div class="stat-pill"><i class="ti ti-world"></i> Online 24/7</div>
+    <div class="stat-pill"><i class="ti ti-lock-open"></i> Gratis selamanya</div>
+    <div class="stat-pill"><i class="ti ti-brand-netlify"></i> Netlify Hosting</div>
+  </div>
+
+  <!-- MAIN -->
+  <main class="main" id="apps">
+
+    <div class="controls">
+      <div class="search-wrap">
+        <i class="ti ti-search"></i>
+        <input type="text" placeholder="Cari aplikasi..." id="searchInput" oninput="filterApps()">
+      </div>
+      <div class="filter-row" id="filterRow">
+        <button class="chip active" onclick="setFilter('semua', this)">Semua</button>
+        <button class="chip" onclick="setFilter('tools', this)">Tools</button>
+        <button class="chip" onclick="setFilter('game', this)">Game</button>
+        <button class="chip" onclick="setFilter('keuangan', this)">Keuangan</button>
+        <button class="chip" onclick="setFilter('lainnya', this)">Lainnya</button>
+      </div>
+    </div>
+
+    <p class="section-label">Aplikasi tersedia</p>
+
+    <div class="apps-grid" id="appGrid">
+
+      <!-- ===== KARTU APP — edit sesuai kebutuhan ===== -->
+
+      <a class="app-card" href="./kalkulator/index.html" data-cat="tools">
+        <div class="app-card-icon ic-purple"><i class="ti ti-calculator"></i></div>
+        <div class="app-card-name">Kalkulator</div>
+        <div class="app-card-desc">Hitung cepat langsung di browser tanpa install.</div>
+        <div class="app-card-footer">
+          <span class="app-tag">Tools</span>
+          <i class="ti ti-arrow-right app-arrow"></i>
+        </div>
+      </a>
+
+      <a class="app-card" href="./catatan/index.html" data-cat="tools">
+        <div class="app-card-icon ic-teal"><i class="ti ti-notes"></i></div>
+        <div class="app-card-name">Catatan</div>
+        <div class="app-card-desc">Simpan ide, to-do list, dan pengingat harian.</div>
+        <div class="app-card-footer">
+          <span class="app-tag">Tools</span>
+          <i class="ti ti-arrow-right app-arrow"></i>
+        </div>
+      </a>
+
+      <a class="app-card" href="./game/index.html" data-cat="game">
+        <div class="app-card-icon ic-coral"><i class="ti ti-device-gamepad-2"></i></div>
+        <div class="app-card-name">Game</div>
+        <div class="app-card-desc">Main langsung di browser, tanpa download.</div>
+        <div class="app-card-footer">
+          <span class="app-tag">Game</span>
+          <i class="ti ti-arrow-right app-arrow"></i>
+        </div>
+      </a>
+
+      <a class="app-card" href="./budget/index.html" data-cat="keuangan">
+        <div class="app-card-icon ic-amber"><i class="ti ti-cash"></i></div>
+        <div class="app-card-name">Budget Tracker</div>
+        <div class="app-card-desc">Pantau pengeluaran dan pemasukan harian kamu.</div>
+        <div class="app-card-footer">
+          <span class="app-tag">Keuangan</span>
+          <i class="ti ti-arrow-right app-arrow"></i>
+        </div>
+      </a>
+
+      <a class="app-card" href="./timer/index.html" data-cat="tools">
+        <div class="app-card-icon ic-blue"><i class="ti ti-clock"></i></div>
+        <div class="app-card-name">Timer & Stopwatch</div>
+        <div class="app-card-desc">Hitung waktu dengan akurat dan mudah.</div>
+        <div class="app-card-footer">
+          <span class="app-tag">Tools</span>
+          <i class="ti ti-arrow-right app-arrow"></i>
+        </div>
+      </a>
+
+      <a class="app-card" href="./konverter/index.html" data-cat="tools">
+        <div class="app-card-icon ic-pink"><i class="ti ti-arrows-exchange"></i></div>
+        <div class="app-card-name">Konverter</div>
+        <div class="app-card-desc">Ubah satuan panjang, berat, suhu, mata uang.</div>
+        <div class="app-card-footer">
+          <span class="app-tag">Tools</span>
+          <i class="ti ti-arrow-right app-arrow"></i>
+        </div>
+      </a>
+
+      <!-- ===== TAMBAH KARTU APP BARU DI SINI ===== -->
+      <!--
+      <a class="app-card" href="./nama-folder/index.html" data-cat="tools">
+        <div class="app-card-icon ic-green"><i class="ti ti-NAMA-IKON"></i></div>
+        <div class="app-card-name">Nama Aplikasi</div>
+        <div class="app-card-desc">Deskripsi singkat aplikasi kamu.</div>
+        <div class="app-card-footer">
+          <span class="app-tag">Kategori</span>
+          <i class="ti ti-arrow-right app-arrow"></i>
+        </div>
+      </a>
+      -->
+
+      <div id="no-result">
+        <i class="ti ti-search-off"></i>
+        Tidak ada aplikasi ditemukan
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    Dibuat dengan ❤️ &nbsp;·&nbsp; Hosting gratis di <a href="https://netlify.com" target="_blank">Netlify</a> &nbsp;·&nbsp; Kode di <a href="https://github.com" target="_blank">GitHub</a>
+  </footer>
+
+  <script>
+    let activeFilter = 'semua';
+
+    function setFilter(cat, el) {
+      activeFilter = cat;
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      filterApps();
+    }
+
+    function filterApps() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('#appGrid .app-card');
+      let visible = 0;
+      cards.forEach(card => {
+        const name = card.querySelector('.app-card-name').textContent.toLowerCase();
+        const desc = card.querySelector('.app-card-desc').textContent.toLowerCase();
+        const cat  = card.dataset.cat || '';
+        const matchSearch = name.includes(q) || desc.includes(q);
+        const matchFilter = activeFilter === 'semua' || cat === activeFilter;
+        if (matchSearch && matchFilter) { card.style.display = ''; visible++; }
+        else { card.style.display = 'none'; }
+      });
+      document.getElementById('no-result').style.display = visible === 0 ? 'block' : 'none';
+      document.getElementById('count-display').textContent = visible;
+    }
+  </script>
+
+</body>
+</html>
